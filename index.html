@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Netuno, o gigante azul do fim do Sistema Solar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+:root{
+  color-scheme: dark;
+  --void:#040816; --night:#081033; --deep:#0f1f7a; --neptune:#3f6bff; --azure:#6ea0ff;
+  --ice:#a9d4ff; --foam:#eaf4ff; --cyan:#57e6ff; --mute:#9db0e0; --line:rgba(120,160,255,.22);
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --text:"Instrument Sans","Segoe UI",system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px);background:var(--void)}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;background:var(--void);color:#d3e2ff;font-family:var(--text);font-size:1.0625rem;line-height:1.6;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(70vmax 50vmax at 85% 8%,rgba(63,107,255,.20),transparent 60%),
+    radial-gradient(60vmax 60vmax at 5% 95%,rgba(15,31,122,.55),transparent 60%);
+}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto}
+section{position:relative;z-index:1;padding:clamp(76px,12vw,150px) clamp(20px,5vw,72px)}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:calc(env(safe-area-inset-top,0px) + 14px) clamp(18px,4vw,56px) 14px;
+  background:linear-gradient(180deg,rgba(4,8,22,.85),rgba(4,8,22,0));
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.brand{font-family:var(--display);font-weight:700;font-size:1.25rem;letter-spacing:-.02em;text-decoration:none;color:var(--foam);display:flex;gap:.5rem;align-items:center}
+.brand i{font-style:normal;color:var(--cyan);display:inline-block;animation:tri 6s ease-in-out infinite}
+@keyframes tri{50%{transform:rotate(14deg) translateY(-2px)}}
+.nav ul{display:flex;gap:clamp(12px,2.4vw,32px);list-style:none;margin:0;padding:0}
+.nav a.l{text-decoration:none;font-size:.95rem;color:var(--ice);position:relative;padding:6px 0}
+.nav a.l::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.nav a.l:hover::after{transform:scaleX(1)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;z-index:1;min-height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:120px clamp(20px,5vw,72px) clamp(36px,7vh,80px)}
+.planet-wrap{
+  --size:clamp(270px,58vmin,660px);--mx:0;--my:0;--sp:0;
+  position:absolute;width:var(--size);height:var(--size);top:50%;right:clamp(16px,8vw,140px);
+  transform:translate3d(calc(var(--mx)*16px),calc(-50% + var(--my)*16px + var(--sp)*110px),0) scale(calc(1 + var(--sp)*.2));
+  z-index:1;will-change:transform;
+  animation:arrive 2.4s var(--ease) both;
+}
+@keyframes arrive{from{opacity:0;filter:blur(24px)}to{opacity:1;filter:blur(0)}}
+.planet{
+  position:absolute;inset:0;border-radius:50%;overflow:hidden;isolation:isolate;
+  transform:translateZ(0);-webkit-mask-image:-webkit-radial-gradient(white,black);
+  background:#1a34c9;
+  box-shadow:0 0 0 1px rgba(160,205,255,.18),0 0 90px 10px rgba(63,107,255,.45),0 0 240px 60px rgba(30,60,220,.28);
+}
+.rows{position:absolute;inset:-4%;display:flex;flex-direction:column;filter:blur(7px)}
+.row{flex:1;overflow:hidden}
+.track{display:flex;width:200%;height:100%;animation:slide linear infinite}
+.seg{position:relative;width:50%;height:100%;flex:none}
+@keyframes slide{to{transform:translateX(-50%)}}
+.cirrus{position:absolute;inset:0;filter:blur(1.4px);opacity:.9}
+.cirrus .ct{position:absolute;left:0;width:100%;height:9%}
+.streak{position:absolute;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent)}
+.spot{position:absolute;left:36%;top:42%;width:24%;height:13%;border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,rgba(3,8,64,.95),rgba(8,20,110,.55) 55%,transparent 74%)}
+.scooter{position:absolute;left:58%;top:38%;width:11%;height:2.4%;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent)}
+.shade{position:absolute;inset:0;z-index:2;border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 26%,rgba(190,225,255,.38) 0%,rgba(190,225,255,0) 34%),
+    radial-gradient(circle at 34% 30%,rgba(0,0,0,0) 38%,rgba(2,6,44,.42) 66%,rgba(1,3,18,.94) 100%);
+}
+.orbit{position:absolute;inset:-24%;border-radius:50%;border:1px dashed rgba(169,212,255,.3);animation:orb 30s linear infinite;pointer-events:none}
+@keyframes orb{to{transform:rotate(360deg)}}
+.moon{position:absolute;top:0;left:50%;width:clamp(12px,2.2vmin,22px);aspect-ratio:1;margin:calc(clamp(12px,2.2vmin,22px)/-2) 0 0 calc(clamp(12px,2.2vmin,22px)/-2);border-radius:50%;
+  background:radial-gradient(circle at 32% 30%,#fff,#e9c9c0 45%,#8b6e78 100%);box-shadow:0 0 18px rgba(255,220,210,.6)}
+.moon::after{content:"Tritão";position:absolute;left:150%;top:50%;transform:translateY(-50%);font-size:.78rem;color:var(--ice);white-space:nowrap;opacity:.85}
+
+.title{
+  position:relative;z-index:3;margin:0;font-family:var(--display);font-weight:800;
+  font-size:clamp(4.6rem,20vw,15rem);line-height:.86;letter-spacing:-.05em;font-variation-settings:"wdth" 88;
+  pointer-events:none;
+}
+.title span{
+  display:inline-block;background:linear-gradient(180deg,#fff 5%,var(--ice) 42%,var(--neptune) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.06em;
+  animation:rise 1.2s var(--ease) both,bob 6s ease-in-out infinite;
+  animation-delay:calc(.25s + var(--i)*.09s),calc(1.8s + var(--i)*.4s);
+}
+@keyframes rise{from{transform:translateY(90%) rotate(7deg);opacity:0;filter:blur(14px)}to{transform:none;opacity:1;filter:blur(0)}}
+@keyframes bob{50%{transform:translateY(-.035em)}}
+.hero-copy{position:relative;z-index:3;max-width:34rem;margin-top:clamp(18px,3vh,32px);animation:fade 1.2s var(--ease) 1.3s both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero-copy p{margin:0 0 22px;font-size:clamp(1.05rem,2.2vw,1.3rem);color:#dbe8ff}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{
+  position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:.5rem;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:600;
+  border:1px solid var(--line);color:var(--foam);background:rgba(15,31,122,.35);cursor:pointer;font:inherit;font-weight:600;
+  transition:transform .3s var(--ease),border-color .3s;
+}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s var(--ease)}
+.btn:hover{transform:translateY(-2px);border-color:var(--cyan)}
+.btn:hover::after{transform:translateX(120%)}
+.btn.primary{background:linear-gradient(120deg,var(--cyan),var(--azure));color:#03102e;border-color:transparent}
+.cue{position:absolute;z-index:3;left:50%;bottom:16px;width:22px;height:38px;border:1.5px solid rgba(169,212,255,.5);border-radius:14px;transform:translateX(-50%);animation:fade 1s 2.2s both}
+.cue::after{content:"";position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:3px;background:var(--cyan);animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(14px)}}
+
+@media (max-width:820px){
+  .planet-wrap{top:118px;right:50%;--size:clamp(240px,62vw,420px);
+    transform:translate3d(calc(50% + var(--mx)*10px),calc(var(--my)*10px + var(--sp)*60px),0) scale(calc(1 + var(--sp)*.15))}
+  .hero{justify-content:flex-end}
+  .cue{display:none}
+}
+@media (max-width:640px){.nav li.opt{display:none}}
+
+/* ---------- HEADINGS ---------- */
+h2{
+  font-family:var(--display);font-weight:700;font-size:clamp(2.3rem,6.4vw,4.8rem);line-height:.95;letter-spacing:-.035em;
+  margin:0 0 .35em;color:var(--foam);font-variation-settings:"wdth" 92;
+  clip-path:inset(0 100% 0 0);transition:clip-path 1.1s var(--ease);
+}
+h2.in{clip-path:inset(0 -2% 0 0)}
+.lead{max-width:44ch;color:var(--mute);font-size:1.15rem;margin:0 0 clamp(32px,5vw,60px)}
+
+/* ---------- STATS ---------- */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--line)}
+.stat{padding:30px 26px 34px 0;border-bottom:1px solid var(--line)}
+.stat + .stat{padding-left:26px;border-left:1px solid var(--line)}
+.stat.big{grid-column:span 3}
+.stat.sm{grid-column:span 2}
+.stat.big:nth-child(2){padding-left:26px;border-left:1px solid var(--line)}
+.num{font-family:var(--display);font-weight:800;line-height:.95;letter-spacing:-.04em;color:var(--foam);display:flex;align-items:baseline;flex-wrap:wrap;gap:.3em}
+.big .num{font-size:clamp(3.6rem,9vw,7.4rem)}
+.sm .num{font-size:clamp(2.4rem,5vw,3.8rem)}
+.num .unit{font-size:.28em;font-weight:500;letter-spacing:0;color:var(--cyan);font-family:var(--text)}
+.num .pre{opacity:.8}
+.stat p{margin:12px 0 0;color:var(--mute);max-width:30ch;font-size:1rem}
+@media (max-width:820px){
+  .stat.big{grid-column:span 6}.stat.sm{grid-column:span 3}
+  .stat,.stat + .stat,.stat.big:nth-child(2){padding-left:0;border-left:0}
+  .stat.sm:nth-child(odd){padding-left:0}
+  .stat.sm:nth-child(even){padding-left:22px;border-left:1px solid var(--line)}
+}
+
+/* ---------- LIGHT ---------- */
+.light{margin-top:clamp(56px,8vw,110px)}
+.light h3{font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3.4vw,2.4rem);letter-spacing:-.025em;color:var(--foam);margin:0 0 6px}
+.light p{color:var(--mute);margin:0 0 54px;max-width:52ch}
+.beam{position:relative;height:2px;background:linear-gradient(90deg,rgba(255,220,140,.5),rgba(87,230,255,.5));margin:0 14px}
+.sun{position:absolute;left:-14px;top:-14px;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,#fff6d0,#ffb84a 60%,rgba(255,150,40,0) 72%);box-shadow:0 0 36px 8px rgba(255,180,70,.5);animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.15)}}
+.nep{position:absolute;right:-14px;top:-12px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#9cc2ff,#3f6bff 55%,#0f1f7a);box-shadow:0 0 24px rgba(63,107,255,.8)}
+.tick{position:absolute;top:-5px;width:2px;height:12px;background:var(--ice)}
+.tick em{position:absolute;top:22px;left:-4px;font-style:normal;font-size:.82rem;color:var(--ice);white-space:nowrap}
+.photon{position:absolute;top:-4px;left:0;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#fff;box-shadow:0 0 16px 4px rgba(255,255,255,.85),-60px 0 30px 2px rgba(87,230,255,.35)}
+.clock{margin-top:58px;display:flex;align-items:baseline;gap:14px;color:var(--mute)}
+.clock b{font-family:var(--display);font-size:clamp(2rem,5vw,3.2rem);color:var(--foam);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.nep-lbl{position:absolute;right:-14px;top:22px;font-size:.82rem;color:var(--ice)}
+.sun-lbl{position:absolute;left:-14px;top:22px;font-size:.82rem;color:var(--ice)}
+
+/* ---------- WINDS ---------- */
+.winds{display:grid;gap:22px;max-width:920px}
+.bar{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:18px;align-items:center}
+.bar .who{font-size:1rem;color:var(--ice)}
+.bar .who small{display:block;color:var(--mute);font-size:.85rem}
+.meter{position:relative;height:38px;border-radius:999px;background:rgba(120,160,255,.10);overflow:hidden}
+.fill{
+  position:absolute;inset:0 auto 0 0;width:calc(var(--v)*1%);border-radius:999px;transform:scaleX(0);transform-origin:left;
+  background:linear-gradient(90deg,#2a4be0,#6ea0ff);transition:transform 1.6s var(--ease);transition-delay:var(--d,0s);
+  display:flex;align-items:center;justify-content:flex-end;padding-right:16px;color:#02103a;font-weight:700;font-size:.95rem;white-space:nowrap;
+}
+.winds.in .fill{transform:scaleX(1)}
+.fill.nept{background:repeating-linear-gradient(100deg,#57e6ff 0 22px,#3f6bff 22px 60px);background-size:120px 100%;animation:streak .7s linear infinite;color:#02103a}
+@keyframes streak{to{background-position:-120px 0}}
+@media (max-width:640px){.bar{grid-template-columns:1fr;gap:8px}}
+.note{margin-top:26px;color:var(--mute);max-width:56ch}
+
+/* ---------- TRITON ---------- */
+.triton{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center}
+@media (max-width:820px){.triton{grid-template-columns:1fr}}
+.dia{position:relative;width:min(86vw,400px);aspect-ratio:1;margin:0 auto}
+.ring{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(169,212,255,.35)}
+.arm{position:absolute;inset:0;animation:orb 14s linear infinite}
+.dia.normal .arm{animation-direction:reverse}
+.mini{position:absolute;inset:32%;border-radius:50%;
+  background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.4),transparent 42%),radial-gradient(circle at 72% 78%,rgba(0,0,30,.75),transparent 66%),linear-gradient(90deg,#2a4be0,#5b8cff,#2a4be0,#1c34a8,#3560ec,#2a4be0);
+  background-size:auto,auto,200% 100%;background-repeat:no-repeat,no-repeat,repeat;
+  box-shadow:0 0 60px rgba(63,107,255,.55);animation:drift 16s linear infinite}
+@keyframes drift{from{background-position:0 0,0 0,0 0}to{background-position:0 0,0 0,-200% 0}}
+.arm .moon{top:0}
+.arm .moon::after{content:none}
+.legend{display:grid;gap:8px;margin:0 auto;width:min(86vw,400px);margin-top:22px;font-size:.95rem;color:var(--mute)}
+.legend b{color:var(--foam);font-weight:600}
+.facts{list-style:none;margin:26px 0 30px;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.facts li{padding:14px 0;border-bottom:1px solid var(--line);color:#d3e2ff}
+.facts b{color:var(--cyan);font-weight:600}
+
+/* ---------- FAQ ---------- */
+.tools{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:30px}
+.search{flex:1 1 260px;position:relative;max-width:440px}
+.search input{width:100%;font:inherit;color:var(--foam);background:rgba(15,31,122,.35);border:1px solid var(--line);border-radius:999px;padding:12px 18px 12px 44px;transition:border-color .3s,box-shadow .3s}
+.search input::placeholder{color:#7f93c7}
+.search input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 4px rgba(87,230,255,.15)}
+.search svg{position:absolute;left:16px;top:50%;width:18px;height:18px;transform:translateY(-50%);stroke:var(--ice);fill:none;stroke-width:2}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:.92rem;color:var(--ice);background:transparent;border:1px solid var(--line);padding:8px 16px;border-radius:999px;cursor:pointer;transition:all .3s var(--ease)}
+.chip:hover{border-color:var(--azure)}
+.chip[aria-pressed="true"]{background:var(--neptune);border-color:var(--neptune);color:#fff}
+.faq{max-width:900px}
+.qa{position:relative;border-top:1px solid var(--line);transition:background .4s}
+.qa:last-child{border-bottom:1px solid var(--line)}
+.qa::before{content:"";position:absolute;left:0;top:-1px;height:2px;width:100%;background:linear-gradient(90deg,var(--cyan),var(--neptune));transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease)}
+.qa.open::before{transform:scaleX(1)}
+.qa.open{background:linear-gradient(90deg,rgba(63,107,255,.10),transparent)}
+.qa.hide{display:none}
+.qa h3{margin:0}
+.qa button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;background:none;border:0;color:var(--foam);cursor:pointer;
+  font-family:var(--display);font-weight:600;font-size:clamp(1.15rem,2.4vw,1.5rem);letter-spacing:-.015em;padding:22px 8px 22px 4px;line-height:1.2}
+.qa button:hover .pl{border-color:var(--cyan)}
+.pl{position:relative;flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);transition:transform .5s var(--ease),border-color .3s,background .3s}
+.pl::before,.pl::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;background:var(--ice);border-radius:2px}
+.pl::after{transform:rotate(90deg);transition:transform .5s var(--ease)}
+.qa.open .pl{transform:rotate(180deg);background:rgba(87,230,255,.14);border-color:var(--cyan)}
+.qa.open .pl::after{transform:rotate(0)}
+.ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
+.qa.open .ans{grid-template-rows:1fr}
+.ans > div{overflow:hidden}
+.ans p{margin:0;padding:0 56px 26px 4px;max-width:66ch;color:#cfe0ff;opacity:0;transform:translateY(-8px);transition:opacity .5s .1s,transform .6s var(--ease) .1s}
+.qa.open .ans p{opacity:1;transform:none}
+.empty{display:none;padding:40px 0;color:var(--mute)}
+.empty.show{display:block}
+
+/* ---------- QUIZ ---------- */
+.quiz{max-width:760px;position:relative}
+.progress{height:6px;border-radius:6px;background:rgba(120,160,255,.15);overflow:hidden;margin-bottom:26px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--neptune));transition:width .7s var(--ease)}
+.qcount{color:var(--mute);font-size:.95rem;margin-bottom:8px}
+.qtitle{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.1;letter-spacing:-.025em;color:var(--foam);margin:0 0 24px}
+.opts{display:grid;gap:12px}
+.opt{position:relative;text-align:left;font:inherit;font-size:1.05rem;color:var(--foam);background:rgba(15,31,122,.3);border:1px solid var(--line);border-radius:16px;padding:16px 20px;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;transition:transform .3s var(--ease),border-color .3s,background .3s}
+.opt:hover:not([disabled]){transform:translateX(6px);border-color:var(--azure)}
+.opt[disabled]{cursor:default}
+.opt.ok{background:rgba(87,230,255,.16);border-color:var(--cyan);animation:pop .5s var(--ease)}
+.opt.no{background:rgba(255,120,140,.12);border-color:#ff8a9c;animation:shake .45s}
+.opt .mk{font-weight:700;opacity:0}
+.opt.ok .mk,.opt.no .mk{opacity:1}
+.opt.ok .mk{color:var(--cyan)}
+.opt.no .mk{color:#ff9db0}
+@keyframes pop{40%{transform:scale(1.025)}}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.expl{margin:20px 0 0;padding:16px 20px;border-left:3px solid var(--cyan);background:rgba(87,230,255,.07);border-radius:0 12px 12px 0;color:#d3e2ff;display:none}
+.expl.show{display:block;animation:fade .5s var(--ease)}
+.quiz .btn{margin-top:22px}
+.burst{position:absolute;left:0;top:0;width:0;height:0;pointer-events:none}
+.burst i{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--cyan);animation:burst .9s var(--ease) forwards}
+@keyframes burst{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+.result{text-align:left}
+.result .score{font-family:var(--display);font-weight:800;font-size:clamp(4rem,14vw,8rem);line-height:.9;color:var(--foam);letter-spacing:-.05em}
+.result .score span{color:var(--cyan)}
+
+/* ---------- FOOTER ---------- */
+footer{position:relative;z-index:1;padding:60px clamp(20px,5vw,72px) 80px;border-top:1px solid var(--line);color:var(--mute);text-align:center}
+footer .big{font-family:var(--display);font-size:clamp(2rem,6vw,3.6rem);font-weight:800;letter-spacing:-.04em;background:linear-gradient(90deg,var(--ice),var(--neptune),var(--cyan),var(--ice));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 8s linear infinite}
+@keyframes flow{to{background-position:-300% 0}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important}
+}
+</style>
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<nav class="nav" aria-label="Principal">
+  <a class="brand" href="#topo"><i>♆</i>Netuno</a>
+  <ul>
+    <li class="opt"><a class="l" href="#numeros">Números</a></li>
+    <li class="opt"><a class="l" href="#ventos">Ventos</a></li>
+    <li class="opt"><a class="l" href="#triton">Tritão</a></li>
+    <li><a class="l" href="#perguntas">Perguntas</a></li>
+    <li><a class="l" href="#quiz">Quiz</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="topo">
+  <div class="planet-wrap" id="pw">
+    <div class="planet" aria-label="Animação do planeta Netuno girando" role="img">
+      <div class="rows" id="rows"></div>
+      <div class="cirrus" id="cirrus"></div>
+      <div class="shade"></div>
+    </div>
+    <div class="orbit" aria-hidden="true"><div class="moon"></div></div>
+  </div>
+
+  <h1 class="title" aria-label="Netuno">
+    <span style="--i:0" aria-hidden="true">N</span><span style="--i:1" aria-hidden="true">e</span><span style="--i:2" aria-hidden="true">t</span><span style="--i:3" aria-hidden="true">u</span><span style="--i:4" aria-hidden="true">n</span><span style="--i:5" aria-hidden="true">o</span>
+  </h1>
+  <div class="hero-copy">
+    <p>O planeta azul mais distante do Sistema Solar: ventos mais rápidos que o som, uma lua que anda ao contrário e um ano que dura 165 anos.</p>
+    <div class="btns">
+      <a class="btn primary" href="#perguntas">Ver perguntas e respostas</a>
+      <a class="btn" href="#quiz">Fazer o quiz</a>
+    </div>
+  </div>
+  <div class="cue" aria-hidden="true"></div>
+</header>
+
+<section id="numeros">
+  <div class="wrap">
+    <h2>Netuno em números</h2>
+    <p class="lead">O oitavo planeta é um gigante de gelo: grande, frio e muito longe.</p>
+
+    <div class="stats">
+      <div class="stat big">
+        <div class="num"><b data-to="4.5" data-dec="1">0</b><span class="unit">bilhões de km</span></div>
+        <p>de distância média do Sol, cerca de 30 vezes a distância entre a Terra e o Sol.</p>
+      </div>
+      <div class="stat big">
+        <div class="num"><b data-to="165">0</b><span class="unit">anos terrestres</span></div>
+        <p>para dar uma volta no Sol. Netuno completou a primeira volta desde sua descoberta em 2011.</p>
+      </div>
+      <div class="stat sm">
+        <div class="num"><b data-to="16">0</b><span class="unit">horas</span></div>
+        <p>é a duração de um dia em Netuno.</p>
+      </div>
+      <div class="stat sm">
+        <div class="num"><span class="pre">−</span><b data-to="200">0</b><span class="unit">°C</span></div>
+        <p>no topo das nuvens.</p>
+      </div>
+      <div class="stat sm">
+        <div class="num"><b data-to="16">0</b><span class="unit">luas</span></div>
+        <p>conhecidas até hoje. A maior é Tritão.</p>
+      </div>
+      <div class="stat sm">
+        <div class="num"><b data-to="17">0</b><span class="unit">× a Terra</span></div>
+        <p>em massa. Em diâmetro, cerca de 4 Terras.</p>
+      </div>
+    </div>
+
+    <div class="light">
+      <h3>A luz do Sol leva 4 horas para chegar aqui</h3>
+      <p>Este ponto de luz sai do Sol agora. Na Terra ele chega em 8 minutos. Em Netuno, em cerca de 4 horas.</p>
+      <div class="beam" id="beam">
+        <i class="sun"></i><span class="sun-lbl">Sol</span>
+        <i class="tick" style="left:3.2%"><em>Terra, 8 min</em></i>
+        <i class="nep"></i><span class="nep-lbl">Netuno</span>
+        <i class="photon" id="photon"></i>
+      </div>
+      <div class="clock"><span>Tempo de viagem da luz</span><b id="clk">00:00</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="ventos">
+  <div class="wrap">
+    <h2>Onde o vento passa do som</h2>
+    <p class="lead">Netuno tem os ventos mais rápidos do Sistema Solar. Compare com o que acontece aqui.</p>
+    <div class="winds" id="windBars">
+      <div class="bar"><div class="who">Furacão categoria 5<small>a partir de 252 km/h</small></div><div class="meter"><div class="fill" style="--v:12;--d:.1s"></div></div></div>
+      <div class="bar"><div class="who">Tornado muito forte<small>cerca de 480 km/h</small></div><div class="meter"><div class="fill" style="--v:23;--d:.25s"></div></div></div>
+      <div class="bar"><div class="who">Velocidade do som<small>1.235 km/h no nível do mar</small></div><div class="meter"><div class="fill" style="--v:59;--d:.4s"></div></div></div>
+      <div class="bar"><div class="who">Netuno<small>ventos das nuvens</small></div><div class="meter"><div class="fill nept" style="--v:100;--d:.6s">2.100 km/h</div></div></div>
+    </div>
+    <p class="note">Ninguém sabe ao certo o que alimenta tanta energia: Netuno está tão longe que recebe pouquíssima luz do Sol, mas tem calor interno próprio.</p>
+  </div>
+</section>
+
+<section id="triton">
+  <div class="wrap triton">
+    <div>
+      <div class="dia" id="dia">
+        <div class="ring"></div>
+        <div class="mini"></div>
+        <div class="arm"><div class="moon"></div></div>
+      </div>
+      <div class="legend">
+        <span>↺ <b>Netuno</b> gira em sentido anti-horário.</span>
+        <span id="dir">↻ <b>Tritão</b> orbita em sentido horário: o contrário.</span>
+      </div>
+    </div>
+    <div>
+      <h2>Tritão vai na contramão</h2>
+      <ul class="facts">
+        <li><b>Órbita retrógrada.</b> Quase todas as grandes luas giram no mesmo sentido do planeta. Tritão não.</li>
+        <li><b>Origem provável.</b> Um objeto do Cinturão de Kuiper capturado pela gravidade de Netuno.</li>
+        <li><b>Gêiseres de gelo.</b> A Voyager 2 viu jatos de nitrogênio em 1989, com a superfície a cerca de −235 °C.</li>
+        <li><b>Destino.</b> Tritão se aproxima devagar de Netuno. Daqui a bilhões de anos, pode virar um anel.</li>
+      </ul>
+      <button class="btn" id="tgl" aria-pressed="false">Comparar com uma lua comum</button>
+    </div>
+  </div>
+</section>
+
+<section id="perguntas">
+  <div class="wrap">
+    <h2>Perguntas e respostas</h2>
+    <p class="lead">Clique em uma pergunta para abrir. Filtre por tema ou busque uma palavra.</p>
+    <div class="tools">
+      <label class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="q" type="search" placeholder="Buscar: vento, lua, cor..." aria-label="Buscar perguntas">
+      </label>
+      <div class="chips" id="chips" role="group" aria-label="Filtrar por tema"></div>
+    </div>
+    <div class="faq" id="faq"></div>
+    <div class="empty" id="empty">Nenhuma pergunta encontrada. Tente buscar por &quot;vento&quot;, &quot;lua&quot; ou &quot;cor&quot;.</div>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="wrap">
+    <h2>Você conhece Netuno?</h2>
+    <p class="lead">Cinco perguntas rápidas. As respostas estão logo acima.</p>
+    <div class="quiz" id="quizBox"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="big">Netuno ♆</div>
+  <p>O oitavo planeta, a 4,5 bilhões de km daqui. Números arredondados.</p>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ===== Planeta: faixas com rotação diferencial ===== */
+  function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  var rows=document.getElementById('rows'),cir=document.getElementById('cirrus');
+  var N=11,i;
+  for(i=0;i<N;i++){
+    var lat=(i/(N-1))*2-1;
+    var dur=24+Math.abs(lat)*46+(i%3)*3;
+    var l=44+13*Math.sin(i*1.9)+(1-Math.abs(lat))*4;
+    var h=222+6*Math.sin(i*1.3);
+    var c1='hsl('+h+' 88% '+l+'%)',c2='hsl('+(h+6)+' 92% '+(l+9)+'%)',c3='hsl('+(h-8)+' 85% '+(l-9)+'%)';
+    var seg='<div class="seg" style="background:linear-gradient(90deg,'+c1+' 0%,'+c2+' 28%,'+c1+' 52%,'+c3+' 76%,'+c1+' 100%)"></div>';
+    rows.insertAdjacentHTML('beforeend','<div class="row"><div class="track" style="animation-duration:'+dur+'s">'+seg+seg+'</div></div>');
+  }
+  var r=rng(7),k,j;
+  for(k=0;k<9;k++){
+    var s='';
+    var cnt=2+Math.floor(r()*2);
+    for(j=0;j<cnt;j++){
+      s+='<i class="streak" style="left:'+(r()*85).toFixed(1)+'%;top:'+(r()*70+10).toFixed(0)+'%;width:'+(10+r()*22).toFixed(1)+'%;height:'+(10+r()*22).toFixed(0)+'%"></i>';
+    }
+    var seg2='<div class="seg">'+s+'</div>';
+    var d2=20+r()*34;
+    cir.insertAdjacentHTML('beforeend','<div class="ct" style="top:'+(6+k*10.4).toFixed(1)+'%"><div class="track" style="animation-duration:'+d2.toFixed(1)+'s">'+seg2+seg2+'</div></div>');
+  }
+  var spotSeg='<div class="seg"><i class="spot"></i><i class="scooter"></i></div>';
+  cir.insertAdjacentHTML('beforeend','<div class="ct" style="top:0;height:100%"><div class="track" style="animation-duration:58s">'+spotSeg+spotSeg+'</div></div>');
+
+  /* ===== Estrelas ===== */
+  var c=document.getElementById('stars'),x=c.getContext('2d');
+  var w,h,dpr,stars=[],shoot=null,mx=0,my=0,tmx=0,tmy=0;
+  function resize(){
+    dpr=Math.min(window.devicePixelRatio||1,2);w=window.innerWidth;h=window.innerHeight;
+    c.width=w*dpr;c.height=h*dpr;c.style.width=w+'px';c.style.height=h+'px';x.setTransform(dpr,0,0,dpr,0,0);
+    var n=Math.round(w*h/5200);stars=[];
+    for(var q=0;q<n;q++){stars.push({x:Math.random()*w,y:Math.random()*h,z:Math.random()*.9+.1,p:Math.random()*6.28,s:Math.random()*1.4+.3})}
+  }
+  function drawStars(t){
+    x.clearRect(0,0,w,h);
+    var sy=window.scrollY||0;
+    for(var q=0;q<stars.length;q++){
+      var st=stars[q];
+      var px=((st.x-mx*st.z*22)%w+w)%w;
+      var py=((st.y-sy*st.z*.28-my*st.z*22)%h+h)%h;
+      var a=(.28+.72*(.5+.5*Math.sin(t/900*st.s+st.p)))*(.35+st.z*.65);
+      x.fillStyle='rgba('+(190+st.z*50|0)+','+(215+st.z*30|0)+',255,'+a.toFixed(3)+')';
+      x.beginPath();x.arc(px,py,st.z*1.35,0,6.283);x.fill();
+    }
+    if(!reduce){
+      if(!shoot&&Math.random()<.0035){shoot={x:Math.random()*w*.9,y:Math.random()*h*.4,vx:9+Math.random()*6,vy:4+Math.random()*3,l:0}}
+      if(shoot){
+        var g=x.createLinearGradient(shoot.x,shoot.y,shoot.x-shoot.vx*9,shoot.y-shoot.vy*9);
+        g.addColorStop(0,'rgba(255,255,255,.95)');g.addColorStop(1,'rgba(87,230,255,0)');
+        x.strokeStyle=g;x.lineWidth=1.6;x.beginPath();x.moveTo(shoot.x,shoot.y);x.lineTo(shoot.x-shoot.vx*9,shoot.y-shoot.vy*9);x.stroke();
+        shoot.x+=shoot.vx;shoot.y+=shoot.vy;shoot.l++;
+        if(shoot.l>70||shoot.x>w+80||shoot.y>h+80)shoot=null;
+      }
+    }
+  }
+  resize();window.addEventListener('resize',resize);
+
+  /* ===== Parallax do planeta + scroll ===== */
+  var pw=document.getElementById('pw');
+  window.addEventListener('pointermove',function(e){tmx=(e.clientX/w-.5)*2;tmy=(e.clientY/h-.5)*2},{passive:true});
+
+  /* ===== Viagem da luz ===== */
+  var photon=document.getElementById('photon'),clk=document.getElementById('clk'),beam=document.getElementById('beam');
+  var beamVisible=false;
+  function fmt(mins){var hh=Math.floor(mins/60),mm=Math.floor(mins%60);return (hh<10?'0':'')+hh+':'+(mm<10?'0':'')+mm}
+  function light(t){
+    if(!beamVisible)return;
+    var cycle=9000,run=7000,p=Math.min((t%cycle)/run,1);
+    photon.style.left=(p*100)+'%';
+    clk.textContent=fmt(p*250)+' h';
+  }
+  if(reduce){photon.style.left='100%';clk.textContent='04:10 h'}
+  else{
+    new IntersectionObserver(function(en){beamVisible=en[0].isIntersecting},{threshold:.2}).observe(beam);
+  }
+
+  /* ===== Loop principal ===== */
+  function loop(t){
+    mx+=(tmx-mx)*.06;my+=(tmy-my)*.06;
+    var sp=Math.min(Math.max((window.scrollY||0)/window.innerHeight,0),1);
+    pw.style.setProperty('--mx',mx.toFixed(3));pw.style.setProperty('--my',my.toFixed(3));pw.style.setProperty('--sp',sp.toFixed(3));
+    drawStars(t);light(t);
+    requestAnimationFrame(loop);
+  }
+  if(reduce){drawStars(0);window.addEventListener('resize',function(){drawStars(0)})}else{requestAnimationFrame(loop)}
+
+  /* ===== Revelações ===== */
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(!e.isIntersecting)return;
+      e.target.classList.add('in');io.unobserve(e.target);
+    });
+  },{threshold:.25});
+  document.querySelectorAll('h2').forEach(function(el){io.observe(el)});
+  io.observe(document.getElementById('windBars'));
+
+  /* ===== Contadores ===== */
+  function fmtNum(v,dec){return v.toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec})}
+  var cio=new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var el=e.target,to=parseFloat(el.dataset.to),dec=parseInt(el.dataset.dec||'0',10);
+      cio.unobserve(el);
+      if(reduce){el.textContent=fmtNum(to,dec);return}
+      var t0=performance.now(),D=1800;
+      (function step(now){
+        var p=Math.min((now-t0)/D,1),ease=1-Math.pow(1-p,4);
+        el.textContent=fmtNum(to*ease,dec);
+        if(p<1)requestAnimationFrame(step);
+      })(t0);
+    });
+  },{threshold:.6});
+  document.querySelectorAll('[data-to]').forEach(function(el){cio.observe(el)});
+
+  /* ===== Tritão: alternar órbita ===== */
+  var dia=document.getElementById('dia'),tgl=document.getElementById('tgl'),dir=document.getElementById('dir');
+  tgl.addEventListener('click',function(){
+    var normal=dia.classList.toggle('normal');
+    tgl.setAttribute('aria-pressed',normal);
+    tgl.textContent=normal?'Voltar para Tritão':'Comparar com uma lua comum';
+    dir.innerHTML=normal?'↺ <b>Lua comum</b> orbita no mesmo sentido do planeta.':'↻ <b>Tritão</b> orbita em sentido horário: o contrário.';
+  });
+
+  /* ===== FAQ ===== */
+  var FAQ=[
+    {c:'Básico',q:'O que é Netuno?',a:'Netuno é o oitavo e mais distante planeta do Sistema Solar. É um gigante de gelo: tem cerca de 4 vezes o diâmetro da Terra e 17 vezes a massa dela, com atmosfera de hidrogênio, hélio e um pouco de metano.'},
+    {c:'Básico',q:'Quem descobriu Netuno?',a:'Em 23 de setembro de 1846, o astrônomo Johann Galle, em Berlim, apontou o telescópio para o ponto calculado pelo francês Urbain Le Verrier e viu o planeta. O inglês John Couch Adams havia feito contas parecidas. Foi o primeiro planeta achado pela matemática antes de ser visto.'},
+    {c:'Básico',q:'Por que se chama Netuno?',a:'Netuno é o deus romano dos mares, chamado de Poseidon pelos gregos. O nome combina com a cor azul do planeta, e seu símbolo, ♆, lembra o tridente do deus.'},
+    {c:'Básico',q:'Quanto dura um ano em Netuno?',a:'Cerca de 165 anos terrestres. Por isso, Netuno só completou a primeira volta ao redor do Sol desde a sua descoberta em 2011.'},
+    {c:'Básico',q:'Quanto dura um dia em Netuno?',a:'Aproximadamente 16 horas. O planeta gira rápido, mas seu ano é enorme, então um único ano netuniano tem cerca de 87 mil dias.'},
+    {c:'Básico',q:'Dá para ver Netuno a olho nu?',a:'Não. Ele é fraco demais para os nossos olhos. Com um telescópio pequeno, ele aparece como um pontinho azulado, sem detalhes.'},
+    {c:'Básico',q:'Por que Netuno é azul?',a:'O metano da atmosfera absorve a luz vermelha e deixa o azul voltar para o espaço. Outro componente ainda não identificado deixa o azul de Netuno mais intenso que o de Urano, seu vizinho parecido.'},
+    {c:'Clima',q:'Qual a velocidade dos ventos?',a:'Passa de 2.000 km/h, os ventos mais rápidos conhecidos no Sistema Solar. É mais que a velocidade do som na Terra.'},
+    {c:'Clima',q:'Faz muito frio em Netuno?',a:'Sim: cerca de −200 °C no topo das nuvens. Curiosamente, Netuno irradia mais calor do que recebe do Sol, então tem uma fonte de calor interna.'},
+    {c:'Clima',q:'Existem tempestades em Netuno?',a:'Sim. Em 1989, a Voyager 2 viu a Grande Mancha Escura, uma tempestade do tamanho da Terra. Em 1994, o telescópio Hubble mostrou que ela tinha sumido. Novas manchas escuras aparecem e desaparecem, junto com nuvens brancas de gelo de metano.'},
+    {c:'Clima',q:'Chove diamante em Netuno?',a:'É uma hipótese. Sob pressão e calor extremos, o carbono do metano poderia virar diamante e afundar. Experimentos de laboratório apoiam a ideia, mas ninguém observou isso em Netuno.'},
+    {c:'Luas e anéis',q:'Quantas luas Netuno tem?',a:'São 16 luas conhecidas até agora, e o número pode crescer com novas descobertas. A maior de longe é Tritão.'},
+    {c:'Luas e anéis',q:'O que Tritão tem de especial?',a:'Ele orbita no sentido contrário ao da rotação de Netuno, o que sugere que foi capturado do Cinturão de Kuiper. Tem gêiseres de nitrogênio, superfície a cerca de −235 °C e um diâmetro de aproximadamente 2.700 km.'},
+    {c:'Luas e anéis',q:'Netuno tem anéis?',a:'Sim, cinco principais: Galle, Le Verrier, Lassell, Arago e Adams. São escuros e finos. O anel Adams tem arcos mais densos, batizados de Liberdade, Igualdade, Fraternidade e Coragem. O telescópio James Webb fotografou os anéis em 2022.'},
+    {c:'Exploração',q:'Alguma sonda já visitou Netuno?',a:'Só a Voyager 2, que passou por lá em 25 de agosto de 1989, a poucos milhares de quilômetros das nuvens. Até hoje nenhuma missão ficou em órbita do planeta.'},
+    {c:'Exploração',q:'Dá para pousar em Netuno?',a:'Não. Netuno não tem superfície sólida: a atmosfera vai ficando mais densa e quente até virar um oceano de fluidos ao redor de um núcleo. Uma nave só afundaria.'}
+  ];
+  var faq=document.getElementById('faq'),chips=document.getElementById('chips'),search=document.getElementById('q'),empty=document.getElementById('empty');
+  var cats=['Tudo'];FAQ.forEach(function(f){if(cats.indexOf(f.c)<0)cats.push(f.c)});
+  var cur='Tudo';
+  FAQ.forEach(function(f,n){
+    var d=document.createElement('div');d.className='qa';d.dataset.cat=f.c;d.dataset.txt=(f.q+' '+f.a).toLowerCase();
+    d.innerHTML='<h3><button aria-expanded="false" aria-controls="a'+n+'"><span>'+f.q+'</span><span class="pl" aria-hidden="true"></span></button></h3><div class="ans" id="a'+n+'" role="region"><div><p>'+f.a+'</p></div></div>';
+    faq.appendChild(d);
+    d.querySelector('button').addEventListener('click',function(){
+      var open=d.classList.toggle('open');this.setAttribute('aria-expanded',open);
+    });
+  });
+  cats.forEach(function(ct){
+    var b=document.createElement('button');b.className='chip';b.textContent=ct;b.setAttribute('aria-pressed',ct===cur);
+    b.addEventListener('click',function(){
+      cur=ct;chips.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===b)});applyFilter();
+    });
+    chips.appendChild(b);
+  });
+  function norm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
+  function applyFilter(){
+    var t=norm(search.value.trim()),shown=0;
+    faq.querySelectorAll('.qa').forEach(function(d){
+      var ok=(cur==='Tudo'||d.dataset.cat===cur)&&(!t||norm(d.dataset.txt).indexOf(t)>=0);
+      d.classList.toggle('hide',!ok);if(ok)shown++;
+    });
+    empty.classList.toggle('show',shown===0);
+  }
+  search.addEventListener('input',applyFilter);
+
+  /* ===== Quiz ===== */
+  var QZ=[
+    {q:'Qual cor de luz o metano absorve, deixando Netuno azul?',o:['Azul','Vermelha','Verde','Amarela'],a:1,e:'O metano absorve a luz vermelha. Sobra o azul, que volta para o espaço.'},
+    {q:'Como Netuno foi descoberto?',o:['Pela sonda Voyager 2','Por Galileu, que o reconheceu como planeta','Por cálculos que apontaram onde ele estaria','Por acaso, a olho nu'],a:2,e:'Le Verrier calculou a posição, e Galle confirmou no telescópio em 1846.'},
+    {q:'Quanto dura um ano em Netuno?',o:['Cerca de 165 anos terrestres','Cerca de 16 anos terrestres','Cerca de 4 anos terrestres','Cerca de 1.650 anos terrestres'],a:0,e:'Netuno demora cerca de 165 anos para dar uma volta no Sol.'},
+    {q:'Qual lua de Netuno orbita no sentido contrário?',o:['Titã','Europa','Fobos','Tritão'],a:3,e:'Tritão tem órbita retrógrada e provavelmente veio do Cinturão de Kuiper.'},
+    {q:'Qual a velocidade dos ventos de Netuno?',o:['Cerca de 100 km/h','Mais de 2.000 km/h','Cerca de 300 km/h','Não há vento'],a:1,e:'São os ventos mais rápidos do Sistema Solar, mais que a velocidade do som na Terra.'}
+  ];
+  var box=document.getElementById('quizBox'),qi=0,score=0;
+  function burst(target){
+    var b=document.createElement('div');b.className='burst';
+    var rc=target.getBoundingClientRect(),pr=box.getBoundingClientRect();
+    b.style.left=(rc.left-pr.left+rc.width-50)+'px';b.style.top=(rc.top-pr.top+rc.height/2)+'px';
+    for(var n=0;n<14;n++){
+      var p=document.createElement('i'),ang=Math.random()*6.283,dist=40+Math.random()*70;
+      p.style.setProperty('--dx',Math.cos(ang)*dist+'px');p.style.setProperty('--dy',Math.sin(ang)*dist+'px');
+      p.style.background=n%2?'#57e6ff':'#ffffff';b.appendChild(p);
+    }
+    box.appendChild(b);setTimeout(function(){b.remove()},1000);
+  }
+  function renderQ(){
+    var it=QZ[qi];
+    box.innerHTML='<div class="progress"><i style="width:'+(qi/QZ.length*100)+'%"></i></div>'+
+      '<div class="qcount">Pergunta '+(qi+1)+' de '+QZ.length+'</div>'+
+      '<h3 class="qtitle">'+it.q+'</h3><div class="opts"></div><div class="expl" id="expl"></div><div id="nx"></div>';
+    var opts=box.querySelector('.opts');
+    it.o.forEach(function(t,n){
+      var b=document.createElement('button');b.className='opt';b.innerHTML='<span>'+t+'</span><span class="mk" aria-hidden="true"></span>';
+      b.addEventListener('click',function(){answer(n,b)});
+      opts.appendChild(b);
+    });
+    requestAnimationFrame(function(){var pr=box.querySelector('.progress i');if(pr)pr.style.width=((qi)/QZ.length*100)+'%'});
+  }
+  function answer(n,btn){
+    var it=QZ[qi],all=box.querySelectorAll('.opt');
+    all.forEach(function(b){b.disabled=true});
+    var ex=document.getElementById('expl');
+    if(n===it.a){
+      score++;btn.classList.add('ok');btn.querySelector('.mk').textContent='✓ Correto';burst(btn);
+      ex.textContent=it.e;
+    }else{
+      btn.classList.add('no');btn.querySelector('.mk').textContent='✕ Errado';
+      all[it.a].classList.add('ok');all[it.a].querySelector('.mk').textContent='✓ Certa';
+      ex.textContent=it.e;
+    }
+    ex.classList.add('show');
+    var last=qi===QZ.length-1;
+    var nx=document.getElementById('nx');
+    nx.innerHTML='<button class="btn primary">'+(last?'Ver resultado':'Próxima pergunta')+'</button>';
+    nx.firstChild.addEventListener('click',function(){
+      if(last){renderResult()}else{qi++;renderQ()}
+    });
+    box.querySelector('.progress i').style.width=((qi+1)/QZ.length*100)+'%';
+  }
+  function renderResult(){
+    var msg=score===5?'Você é um astrônomo de Netuno. Nota máxima!':score>=3?'Muito bem! Você já sabe bastante sobre o gigante azul.':'Netuno guarda muitos segredos. Leia as perguntas acima e tente de novo.';
+    box.innerHTML='<div class="progress"><i style="width:100%"></i></div><div class="result"><div class="score">'+score+'<span>/'+QZ.length+'</span></div><p class="lead" style="margin-top:14px">'+msg+'</p><button class="btn primary" id="again">Jogar de novo</button></div>';
+    document.getElementById('again').addEventListener('click',function(){qi=0;score=0;renderQ()});
+  }
+  renderQ();
+})();
+</script>
+</body>
+</html>
